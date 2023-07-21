@@ -1,0 +1,6 @@
+export { ResizeCmp } from '@/components/ResizeCmp'
+export { Header } from './Header'
+export { Footer } from './Footer'
+export { YellowCmp } from './YellowCmp'
+export { RedCmp } from './RedCmp'
+export { GreenCmp } from './GreenCmp'
