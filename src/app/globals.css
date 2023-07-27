@@ -4,13 +4,6 @@
     --color-yellow: yellow;
     --color-silver: silver;
 }
-
-html,
-body {
-    width: 100vw;
-    height: 100%;
-}
-
 * {
     margin: 0;
     padding: 0;
@@ -18,4 +11,28 @@ body {
     text-decoration: none;
     list-style: none;
     overflow: auto;
+}
+
+html,
+body {
+    width: 100vw;
+    height: 100%;
+}
+
+body {
+    position: relative;
+}
+
+a,
+button {
+    cursor: pointer;
+}
+
+#modal {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    width: max-content;
+    height: max-content;
 }

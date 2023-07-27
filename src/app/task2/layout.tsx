@@ -3,7 +3,7 @@ import { ILayout } from '@/types/layout'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'task_2',
+    title: 'Task 2',
     description: 'description task_2',
 }
 

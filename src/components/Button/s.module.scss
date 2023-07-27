@@ -1,0 +1,26 @@
+.button {
+    padding: 15px 20px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+
+    transition: 0.3s;
+
+    &:hover,
+    &:focus {
+        transform: scale(0.9);
+    }
+}
+
+.transparent {
+    border: 1px solid black;
+    background: transparent;
+    color: black;
+    border-bottom-width: 3px;
+}
+
+.full {
+    border: 1px solid transparent;
+    background: black;
+    color: white;
+}

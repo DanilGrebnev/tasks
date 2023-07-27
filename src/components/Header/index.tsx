@@ -13,14 +13,14 @@ const a = [
     { href: '/task2', text: 'Задача 2' },
 ]
 
-export const Header: FC<IHeader> = ({ className }, ...props) => {
+export const Header: FC<IHeader> = ({ className, ...props }) => {
     const pathName = usePathname()
 
     return (
         <ResizeCmp
             {...props}
-            className={cn(s.header, className)}
             color='silver'
+            className={cn(s.header, className)}
         >
             {a.map(({ href, text }) => (
                 <Link

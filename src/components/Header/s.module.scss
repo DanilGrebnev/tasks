@@ -1,8 +1,17 @@
 .header {
     display: flex;
     gap: 20px;
+
+    a {
+        padding: 5px 10px;
+        color: black;
+    }
 }
 
 .active {
     font-weight: 700;
+}
+
+a.active {
+    color: blue;
 }
