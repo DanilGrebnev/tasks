@@ -5,4 +5,5 @@ export interface IINput extends HTMLProps<HTMLInputElement> {
     header?: string
     type?: HTMLInputTypeAttribute
     required?: boolean
+    Placeholder?: string
 }

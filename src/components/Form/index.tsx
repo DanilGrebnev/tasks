@@ -1,5 +1,5 @@
 'use client'
-import { FC, useEffect } from 'react'
+import { FC, FormEvent, useEffect, useMemo } from 'react'
 import { Input } from '@components/Input'
 import { Button } from '@components/Button'
 import { TChangeEvent, IForm } from './type'
@@ -14,14 +14,15 @@ import s from './s.module.scss'
 
 export const Form: FC<IForm> = ({ onClose }) => {
     //Гос.номер
-    const [stateNumber, isValidStateNumber, setStateNumber] =
-        useIsValidInputStateNumber(getFromSessionStorage('stateNumber'))
+    const [stateNumber, setStateNumber] = useIsValidInputStateNumber(
+        getFromSessionStorage('stateNumber')
+    )
     //Автомобиль
     const [automobile, setAutomobile] = useIsValidInput(
         getFromSessionStorage('automobile')
     )
     //Дата прибытия
-    const [arrivalDate, isValidDate, setData] = useIsValidInputDate(
+    const [arrivalDate, setData] = useIsValidInput(
         getFromSessionStorage('arrivalDate')
     )
     //Серия паспорта
@@ -41,7 +42,7 @@ export const Form: FC<IForm> = ({ onClose }) => {
         getFromSessionStorage('issuedBy')
     )
     //Когда выдан
-    const [whenIssued, isValidWhenIssued, setWhenIssued] = useIsValidInputDate(
+    const [whenIssued, setWhenIssued] = useIsValidInputDate(
         getFromSessionStorage('whenIssued')
     )
 
@@ -56,13 +57,7 @@ export const Form: FC<IForm> = ({ onClose }) => {
         whenIssued,
     }
 
-    useEffect(() => {
-        const entris = [...Object.entries(data)]
-
-        entris.forEach(([key, value]) => {
-            sessionStorage.setItem(key, value)
-        })
-    }, [
+    const dependencies = [
         stateNumber,
         arrivalDate,
         automobile,
@@ -71,19 +66,35 @@ export const Form: FC<IForm> = ({ onClose }) => {
         fullName,
         issuedBy,
         whenIssued,
-    ])
+    ]
+
+    useEffect(() => {
+        Object.entries(data).forEach(([key, value]) => {
+            sessionStorage.setItem(key, value)
+        })
+    }, dependencies)
+
+    const regExpStateNumber = '\\D\\d{3}\\D{2}\\d{3}'
+    const regExpDate = '\\d{2}\\.\\d{2}\\.\\d{4}'
 
     const closeForm = () => {
         onClose && onClose(false)
     }
 
+    const fetchData = (e: FormEvent) => {
+        e.preventDefault()
+
+        for (let i in dependencies) {
+            if (!dependencies[i]) return
+        }
+
+        console.log('Форма отправлена')
+    }
+
     return (
         <form
             className={s.form}
-            onSubmit={e => {
-                e.preventDefault()
-                console.log('Сработала отправка формы')
-            }}
+            onSubmit={fetchData}
         >
             <div
                 className={s.closeBtn}
@@ -95,19 +106,21 @@ export const Form: FC<IForm> = ({ onClose }) => {
 
             <Input
                 required
-                value={stateNumber}
-                onChange={setStateNumber}
+                autoFocus
+                maxLength={9}
+                minLength={9}
                 name='stateNumber'
                 header='Гос-номер'
+                value={stateNumber}
+                onChange={setStateNumber}
+                pattern={regExpStateNumber}
                 placeholder='Укажите гос-номер'
-                maxLength={9}
-                autoFocus
             />
 
             <Input
                 required
-                value={automobile}
                 name='automobile'
+                value={automobile}
                 onChange={setAutomobile}
                 header='Транспортное средство'
                 placeholder='Транспортное средство'
@@ -117,19 +130,23 @@ export const Form: FC<IForm> = ({ onClose }) => {
                 required
                 name='arrivalDate'
                 header='Ориентировочная дата прибытия к покупателю'
-                placeholder='Дата *'
                 value={arrivalDate}
-                maxLength={10}
-                onChange={setData}
+                onChange={(e: any) => {
+                    setData(e)
+                    console.log(arrivalDate)
+                }}
+                // placeholder='Дата *'
+                Placeholder='Дата *'
+                type='date'
             />
 
             <h3>Данные о водителе</h3>
 
             <Input
                 required
-                value={fullName}
-                header='ФИО'
                 name='fullName'
+                header='ФИО'
+                value={fullName}
                 onChange={setFullName}
                 placeholder='Укажите ФИО водителя'
             />
@@ -141,14 +158,15 @@ export const Form: FC<IForm> = ({ onClose }) => {
                 <Input
                     required
                     name='passportSeries'
-                    placeholder='серия'
                     maxLength={4}
-                    type='tel'
+                    minLength={4}
                     id='passport-input'
+                    type='tel'
                     value={passportSeries}
-                    onChange={(e: TChangeEvent) =>
+                    onChange={(e: TChangeEvent) => {
                         setpassportSeries(e, new RegExp('\\d', 'g'))
-                    }
+                    }}
+                    placeholder='серия'
                 />
                 <Input
                     required
@@ -156,6 +174,7 @@ export const Form: FC<IForm> = ({ onClose }) => {
                     placeholder='номер'
                     type='tel'
                     maxLength={6}
+                    minLength={6}
                     value={passportNumber}
                     onChange={(e: TChangeEvent) =>
                         setPassportNumber(e, new RegExp('\\d', 'g'))
@@ -179,6 +198,9 @@ export const Form: FC<IForm> = ({ onClose }) => {
                 header='Когда выдан'
                 placeholder='Когда выдан'
                 onChange={setWhenIssued}
+                maxLength={10}
+                minLength={10}
+                pattern={regExpDate}
             />
             <div className={s['btn-group']}>
                 <Button btnType='full'>Отправить</Button>

@@ -1,12 +1,40 @@
-#input {
-}
-
 .wrapper {
     h4 {
         margin-bottom: 10px;
         font-weight: 300;
     }
+
     input {
         width: 100%;
+        font-family: inherit;
+        position: relative;
+
+        &:focus + .placeholder {
+            display: none;
+        }
     }
+}
+
+.placeholderWrapper {
+    position: relative;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.placeholder {
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    background: white;
+    overflow: hidden;
+    top: 50%;
+    left: 10px;
+    z-index: 1;
+    transform: translateY(-50%);
+    font-family: inherit;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+    align-items: center;
+    display: flex;
 }

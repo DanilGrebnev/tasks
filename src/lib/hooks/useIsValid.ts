@@ -31,9 +31,8 @@ export const useIsValidInput = (
 
 export const useIsValidInputStateNumber = (
     initialValue: string
-): [string, boolean, onChange] => {
+): [string, onChange] => {
     const [value, setValue] = useState(initialValue)
-    const [isValid, setIsValid] = useState(false)
 
     const onChange = useCallback((e: TCHangeInputEvent) => {
         const { value } = e.target
@@ -51,20 +50,15 @@ export const useIsValidInputStateNumber = (
         }
 
         setValue(value.toUpperCase())
-
-        if (!value.match(/\D{1}\d{3}\D{2}\d{3}/)) return setIsValid(false)
-
-        setIsValid(true)
     }, [])
 
-    return [value, isValid, onChange]
+    return [value, onChange]
 }
 
 export const useIsValidInputDate = (
     initialValue: string
-): [string, boolean, onChange] => {
+): [string, onChange] => {
     const [date, setDate] = useState(initialValue)
-    const [isValid, setIsValid] = useState(false)
 
     const onChange = useCallback((e: TCHangeInputEvent) => {
         const { value } = e.target
@@ -81,15 +75,7 @@ export const useIsValidInputDate = (
         }
 
         setDate(value)
-
-        const correctDate = value.match(/\d{2}\.{2}\d{4}/)
-
-        if (correctDate) {
-            setIsValid(true)
-        } else {
-            setIsValid(false)
-        }
     }, [])
 
-    return [date, isValid, onChange]
+    return [date, onChange]
 }
