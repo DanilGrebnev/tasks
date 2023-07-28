@@ -3,10 +3,10 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { ILayout } from '@/types/layout'
 import { Roboto } from 'next/font/google'
-import s from './s.module.scss'
 
 const roboto = Roboto({
     weight: ['300', '400', '500', '700'],
+    subsets: ['latin'],
 })
 
 export const metadata: Metadata = {
