@@ -5,16 +5,24 @@ import { Button } from '@components/Button'
 import { TChangeEvent, IForm } from './type'
 import {
     useIsValidInput,
-    useIsValidInputDate,
-    useIsValidInputStateNumber,
-} from '@/lib/hooks/useIsValid'
+    useInputDateWithMask,
+    useInputStateNumberWithMask,
+} from '@/lib/hooks/useInput'
 import { getFromSessionStorage } from '@/lib/fn/getFromSessionStorage'
 
-import s from './s.module.scss'
+import { fetchData } from './fetchData'
 
-export const Form: FC<IForm> = ({ onClose }) => {
+import axios from 'axios'
+
+import s from './s.module.scss'
+import { CloseBtn } from './components/CloseBtn'
+
+const regExpStateNumber = '\\D\\d{3}\\D{2}\\d{3}'
+const regExpDate = '\\d{2}\\.\\d{2}\\.\\d{4}'
+
+export const Form: FC<IForm> = ({ toggleModal }) => {
     //Гос.номер
-    const [stateNumber, setStateNumber] = useIsValidInputStateNumber(
+    const [stateNumber, setStateNumber] = useInputStateNumberWithMask(
         getFromSessionStorage('stateNumber')
     )
     //Автомобиль
@@ -42,7 +50,7 @@ export const Form: FC<IForm> = ({ onClose }) => {
         getFromSessionStorage('issuedBy')
     )
     //Когда выдан
-    const [whenIssued, setWhenIssued] = useIsValidInputDate(
+    const [whenIssued, setWhenIssued] = useInputDateWithMask(
         getFromSessionStorage('whenIssued')
     )
 
@@ -74,36 +82,20 @@ export const Form: FC<IForm> = ({ onClose }) => {
         })
     }, dependencies)
 
-    const regExpStateNumber = '\\D\\d{3}\\D{2}\\d{3}'
-    const regExpDate = '\\d{2}\\.\\d{2}\\.\\d{4}'
-
     const closeForm = () => {
-        onClose && onClose(false)
-    }
-
-    const fetchData = (e: FormEvent) => {
-        e.preventDefault()
-
-        for (let i in dependencies) {
-            if (!dependencies[i]) return
-        }
-
-        console.log('Форма отправлена')
+        toggleModal && toggleModal(false)
     }
 
     return (
         <form
             className={s.form}
-            onSubmit={fetchData}
+            onSubmit={e => {
+                e.preventDefault()
+                fetchData(data)
+            }}
         >
-            <div
-                className={s.closeBtn}
-                onClick={closeForm}
-            >
-                &times;
-            </div>
+            <CloseBtn closeForm={closeForm} />
             <h2>Транспортные средства и водители</h2>
-
             <Input
                 required
                 autoFocus
@@ -116,7 +108,6 @@ export const Form: FC<IForm> = ({ onClose }) => {
                 pattern={regExpStateNumber}
                 placeholder='Укажите гос-номер'
             />
-
             <Input
                 required
                 name='automobile'
@@ -124,8 +115,8 @@ export const Form: FC<IForm> = ({ onClose }) => {
                 onChange={setAutomobile}
                 header='Транспортное средство'
                 placeholder='Транспортное средство'
+                upperCase
             />
-
             <Input
                 required
                 name='arrivalDate'
@@ -135,13 +126,10 @@ export const Form: FC<IForm> = ({ onClose }) => {
                     setData(e)
                     console.log(arrivalDate)
                 }}
-                // placeholder='Дата *'
                 Placeholder='Дата *'
                 type='date'
             />
-
             <h3>Данные о водителе</h3>
-
             <Input
                 required
                 name='fullName'
@@ -150,7 +138,6 @@ export const Form: FC<IForm> = ({ onClose }) => {
                 onChange={setFullName}
                 placeholder='Укажите ФИО водителя'
             />
-
             <div className={s.passport}>
                 <label htmlFor='passport-input'>
                     <h4>Паспортные данные</h4>
@@ -181,7 +168,6 @@ export const Form: FC<IForm> = ({ onClose }) => {
                     }
                 />
             </div>
-
             <Input
                 required
                 value={issuedBy}

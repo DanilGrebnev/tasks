@@ -6,18 +6,13 @@
     gap: 20px;
     flex-direction: column;
     margin: 0 auto;
+    background: white;
 
     input {
         border: 1px solid black;
         outline: none;
         padding: 10px;
     }
-}
-
-.closeBtn {
-    text-align: end;
-    font-weight: bold;
-    cursor: pointer;
 }
 
 .passport {

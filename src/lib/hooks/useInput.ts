@@ -5,6 +5,9 @@ type onChangeWithRegExp = (e: TCHangeInputEvent, RegExp?: RegExp) => void
 
 type onChange = (e: TCHangeInputEvent) => void
 
+/**
+ * Валидириует поле по регулярному выражению
+ */
 export const useIsValidInput = (
     initialValue: string
 ): [string, onChangeWithRegExp] => {
@@ -29,7 +32,10 @@ export const useIsValidInput = (
     return [value, onChange]
 }
 
-export const useIsValidInputStateNumber = (
+/**
+ * Создаёт маску для ввода Гос. номера автомобиля
+ */
+export const useInputStateNumberWithMask = (
     initialValue: string
 ): [string, onChange] => {
     const [value, setValue] = useState(initialValue)
@@ -55,7 +61,10 @@ export const useIsValidInputStateNumber = (
     return [value, onChange]
 }
 
-export const useIsValidInputDate = (
+/**
+ * Создаёт маску для ввода даты
+ */
+export const useInputDateWithMask = (
     initialValue: string
 ): [string, onChange] => {
     const [date, setDate] = useState(initialValue)

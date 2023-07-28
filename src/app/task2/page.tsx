@@ -1,12 +1,11 @@
 'use client'
-import { useEffect, useState, useRef } from 'react'
-import { createPortal } from 'react-dom'
+import { useState } from 'react'
 import { Header } from '@/components'
-import { Form as FormCmp } from '@/components/Form'
-import { Button } from '@/components/Button'
+import { Button } from '@/components'
 import { Portal } from '@/smart/Portal'
+import { Form } from '@/components'
 
-const Form = () => {
+const Task2 = () => {
     const [toggleModal, setToggleModal] = useState(false)
 
     return (
@@ -21,11 +20,11 @@ const Form = () => {
 
             {toggleModal && (
                 <Portal>
-                    <FormCmp onClose={setToggleModal} />
+                    <Form toggleModal={setToggleModal} />
                 </Portal>
             )}
         </section>
     )
 }
 
-export default Form
+export default Task2

@@ -35,4 +35,5 @@ button {
     position: absolute;
     width: max-content;
     height: max-content;
+    z-index: 1000;
 }

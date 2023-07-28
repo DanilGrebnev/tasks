@@ -10,5 +10,5 @@ export interface IINput<T> {
 }
 
 export interface IForm {
-    onClose?: (value: boolean) => void
+    toggleModal?: (value: boolean) => void
 }

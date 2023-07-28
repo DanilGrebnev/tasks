@@ -1,10 +1,12 @@
-import React, { forwardRef, useEffect, useId, useRef } from 'react'
+import { forwardRef, useId, memo } from 'react'
 import { IINput } from './type'
 import { useTogglePlaceholder } from './hooks/useTogglePlaceholder'
+import { Header } from './components/Header'
+
 import s from './s.module.scss'
 import cn from 'classnames'
 
-export const Input = React.memo(
+export const Input = memo(
     forwardRef<HTMLInputElement, IINput>(
         (
             {
@@ -14,6 +16,8 @@ export const Input = React.memo(
                 id,
                 value,
                 Placeholder,
+                PlaceholderStyle,
+                upperCase,
                 type = 'text',
                 ...props
             },
@@ -24,27 +28,32 @@ export const Input = React.memo(
 
             useTogglePlaceholder({ inputId, placeholderId, value })
 
+            const values = upperCase ? value?.toString().toUpperCase() : value
+
             return (
                 <div className={cn(s.wrapper, className)}>
-                    <label htmlFor={inputId}>
-                        <h4>{header}</h4>
-                    </label>
+                    <Header
+                        header={header}
+                        labelId={inputId}
+                    />
                     <div className={s.placeholderWrapper}>
                         <input
-                            id={cn(inputId, id)}
                             ref={ref}
-                            value={value}
+                            id={cn(inputId, id)}
+                            value={values}
                             name={name}
                             type={type}
                             {...props}
                         />
+
                         {Placeholder && !value && (
-                            <div
+                            <span
                                 id={placeholderId}
                                 className={s.placeholder}
+                                style={PlaceholderStyle}
                             >
                                 {Placeholder}
-                            </div>
+                            </span>
                         )}
                     </div>
                 </div>

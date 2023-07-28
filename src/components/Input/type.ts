@@ -1,4 +1,4 @@
-import { HTMLProps, HTMLInputTypeAttribute } from 'react'
+import { HTMLProps, HTMLInputTypeAttribute, CSSProperties } from 'react'
 
 export interface IINput extends HTMLProps<HTMLInputElement> {
     name: string
@@ -6,4 +6,6 @@ export interface IINput extends HTMLProps<HTMLInputElement> {
     type?: HTMLInputTypeAttribute
     required?: boolean
     Placeholder?: string
+    PlaceholderStyle?: CSSProperties
+    upperCase?: boolean
 }

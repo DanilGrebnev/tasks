@@ -9,11 +9,16 @@ const MyApp = () => {
         >
             <Header className={s.header} />
 
-            <RedCmp className={s.red}>Контент</RedCmp>
+            <div className={s.leftColumn}>
+                <RedCmp className={s.red}>Контент</RedCmp>
+                <GreenCmp className={s.green}>Панель</GreenCmp>
+            </div>
+
+            <RedCmp className={s.red2}>Контент</RedCmp>
 
             <YellowCmp className={s.yellow} />
 
-            <GreenCmp className={s.green}>Панель</GreenCmp>
+            <GreenCmp className={s.green2}>Панель</GreenCmp>
 
             <Footer className={s.footer} />
         </section>
