@@ -14,6 +14,12 @@ First, run the development server:
 'npm run dev' in root folder
 ```
 
+## For production mod:
+
+```
+'npm start' in root folder
+```
+
 ### Last step
 
 #### Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
